@@ -4,6 +4,7 @@ load_dotenv()
 import discord
 from discord import app_commands
 from discord.ext import commands
+from agents import Agents
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 intents = discord.Intents.default()
@@ -14,17 +15,18 @@ client = commands.Bot(command_prefix="/", intents = discord.Intents.all())
 async def on_ready():
     try:
         synced = await client.tree.sync()
+        agents = Agents()
+        print(synced)
 
-        print(f"Synced: {len(synced)} commands")
-        print(f"{synced}")
         print(f'Logged on as {client.user}')
     except Exception as e:
         print(e)
 
-@client.tree.command(name="first_command", description="bleh")
-async def first_command(interaction):
+@client.tree.command(name="help", description="bleh")
+async def help(interaction):
     await interaction.response.send_message("HEYY")
 @client.tree.command(name="bye", description="BLUUHH")
-async def first_command(interaction):
-    await interaction.response.send_message("BYEEE")
+async def bye(interaction):
+    embed = discord.Embed(title="Agents", description="here are the ageents", color=discord.Colour.purple())
+    await interaction.response.send_message(embed = embed)
 client.run(BOT_TOKEN)
