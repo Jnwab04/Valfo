@@ -14,19 +14,21 @@ client = commands.Bot(command_prefix="/", intents = discord.Intents.all())
 @client.event
 async def on_ready():
     try:
-        synced = await client.tree.sync()
+        synced = await client.tree.sync(guild = discord.Object(id = 1291847955963449374)) 
         agents = Agents()
         print(synced)
-
         print(f'Logged on as {client.user}')
     except Exception as e:
         print(e)
 
-@client.tree.command(name="help", description="bleh")
+@client.tree.command(name="help", description="Provides a list of commands (synced to our guild only)", guild = discord.Object(id = 1291847955963449374))
 async def help(interaction):
     await interaction.response.send_message("HEYY")
-@client.tree.command(name="bye", description="BLUUHH")
+@client.tree.command(name="bye", description="Provides information on every agent (synced to our guild only)", guild = discord.Object(id = 1291847955963449374))
 async def bye(interaction):
-    embed = discord.Embed(title="Agents", description="here are the ageents", color=discord.Colour.purple())
+    embed = discord.Embed(title="Agents", description="LIST OF AGENTS", color=discord.Colour.purple())
     await interaction.response.send_message(embed = embed)
+@client.tree.command(name="shutdown", description="force shut down the bot (synced to our guild only)" , guild = discord.Object(id = 1291847955963449374))
+async def shutdown(interaction):
+    exit()
 client.run(BOT_TOKEN)
