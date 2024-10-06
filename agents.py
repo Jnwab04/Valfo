@@ -9,21 +9,31 @@ class Agents():
             __response = requests.get(__url).json()["data"]
             self.response = __response
     def getAgentInfo(self, name):
-        #capitalize first name to access API easier
         name = (name[0].upper() + name[1:].lower()).strip()
+        found = False
         agentDescription = None
         agentImage = None
+        agentRole = None
+        agentRoleThumbnail = None
         for agent in self.response:
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
                 agentDescription = agent["description"]
                 agentImage = agent["fullPortrait"]
+                agentRoleThumbnail = agent["role"]["displayIcon"]
+                agentRole = agent["role"]["displayName"]
+                found = True
                 break
-        agentEmbed = discord.Embed(
-            title= name,
-            color = discord.Color.green(),
-            type = 'rich',
-            description = agentDescription
-            )
-        agentEmbed.set_image(url = agentImage)
+        if not found:
+            agentEmbed = discord.Embed(title = "Agent Not Found", type = "rich")
+            return agentEmbed
+        else:
+            agentEmbed = discord.Embed(
+                title= name,
+                color = discord.Color.green(),
+                type = 'rich',
+                description = agentDescription
+                )
+            agentEmbed.set_image(url = agentImage)
+            agentEmbed.set_footer(text=agentRole, icon_url= agentRoleThumbnail)
 
-        return agentEmbed
+            return agentEmbed
