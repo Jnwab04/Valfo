@@ -27,7 +27,7 @@ async def help(interaction):
 
 @client.tree.command(name="agentinfo", description="Provides information on every agent (synced to our guild only)", guild = discord.Object(id = 1291847955963449374))
 async def agentinfo(interaction, agent: str):
-    embed = agents.getAgent(name = agent)
+    embed = agents.getAgentInfo(name = agent)
     await interaction.response.send_message(embed = embed)
 
 @client.tree.command(name="shutdown", description="force shut down the bot (synced to our guild only)" , guild = discord.Object(id = 1291847955963449374))
