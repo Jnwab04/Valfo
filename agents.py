@@ -8,19 +8,31 @@ class Agents():
             __url = "https://valorant-api.com/v1/agents"
             __response = requests.get(__url).json()["data"]
             self.response = __response
-    def getAgentInfo(self, name):
-        name = (name[0].upper() + name[1:].lower()).strip()
-        found = False
-        agentDescription = None
-        agentImage = None
-        agentRole = None
-        agentRoleThumbnail = None
+    
+    def getAgentImage(self, name : str):
         for agent in self.response:
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
-                agentDescription = agent["description"]
-                agentImage = agent["fullPortrait"]
-                agentRoleThumbnail = agent["role"]["displayIcon"]
-                agentRole = agent["role"]["displayName"]
+                return agent["fullPortrait"]
+        return None
+    def getAgentRole(self, name : str):
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == name:
+                return agent["role"]["displayName"]
+        return None
+    def getAgentDescription(self, name : str):
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == name:
+                return agent["description"]
+        return None
+    def getAgentRoleThumbnail(self, name : str):
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == name:
+                return agent["role"]["displayIcon"]
+        return None
+    def getAgentInfo(self, name):
+        name = (name[0].upper() + name[1:].lower()).strip()
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == name:
                 found = True
                 break
         if not found:
@@ -31,9 +43,9 @@ class Agents():
                 title= name,
                 color = discord.Color.green(),
                 type = 'rich',
-                description = agentDescription
+                description = self.getAgentDescription(name = name)
                 )
-            agentEmbed.set_image(url = agentImage)
-            agentEmbed.set_footer(text=agentRole, icon_url= agentRoleThumbnail)
+            agentEmbed.set_image(url = self.getAgentImage(name = name))
+            agentEmbed.set_footer(text=self.getAgentRole(name = name), icon_url= self.getAgentRoleThumbnail(name = name))
 
             return agentEmbed
