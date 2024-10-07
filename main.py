@@ -44,7 +44,7 @@ async def buddies(interaction, buddy:str):
 async def paginate(ctx):
     data = range(1,15)
     paginateview = Pageview()
-    paginateview.data = data
+    paginateview.data = list(data)
     await paginateview.send(ctx)
 
 @client.tree.command(name="shutdown", description="force shut down the bot (synced to our guild only)" , guild = discord.Object(id = GUILD))
