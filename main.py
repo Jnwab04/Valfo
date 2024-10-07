@@ -5,7 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from agents import Agents
-from Buddies import Buddy
+from buddies import Buddy
 from pagination import Pageview
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
