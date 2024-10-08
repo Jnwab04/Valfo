@@ -34,31 +34,32 @@ class Agents():
         abilityname = None
         abilitydesc = None
         abilityicon = None
-        print("IN AGENTABILITY!!")
         for agent in self.response:
             if agent["isPlayableCharacter"] and agent["displayName"] == agentname:
-                abilityname = agent["displayName"]["abilities"][abilitynum]["displayName"]
-                abilitydesc = agent["displayName"]["abilities"][abilitynum]["description"]
-                abilityicon = agent["displayName"]["abilities"][abilitynum]["displayIcon"]
-                break
-            return None
-        return [abilityname, abilitydesc, abilityicon]
+                abilityname = agent["abilities"][abilitynum]["displayName"]
+                abilitydesc = agent["abilities"][abilitynum]["description"]
+                abilityicon = agent["abilities"][abilitynum]["displayIcon"]
+                return [abilityname, abilitydesc, abilityicon]
+                
+        return None
+        
 
     def getAgentAbilityEmbed(self, agentname : str, num : int):
-        print("IN ABILITY EMBED!!")
         agentname = (agentname[0].upper() + agentname[1:].lower()).strip()
-        abilityInfo = self.getAgentAbility(name = agentname, abilitynum=num)
+        abilityInfo = self.getAgentAbility(agentname = agentname, abilitynum=num)
         if abilityInfo == None:
-            abilityEmbed = discord.Embed(title = "Agent Not Found", type = "rich")
+            abilityEmbed = discord.Embed(title = "Error", type = "rich")
             return abilityEmbed
         else:
             abilityName = abilityInfo[0]
             abilityDesc = abilityInfo[1]
             abilityIcon = abilityInfo[2]
             abilityEmbed = discord.Embed(
-                title = f"Ability {num}: {abilityName}",
+                title = f"Ability {num + 1}: {abilityName}",
                 color = discord.Color.blue(),
                 description=abilityDesc)
+            if (num + 1) >= 4:
+                abilityEmbed.title = f"Ultimate: {abilityName}"
             abilityEmbed.set_image(url = abilityIcon)
             return abilityEmbed
         
