@@ -29,7 +29,40 @@ class Agents():
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
                 return agent["role"]["displayIcon"]
         return None
-    def getAgentInfo(self, name):
+    
+    def getAgentAbility(self, agentname : str, abilitynum : int):
+        abilityname = None
+        abilitydesc = None
+        abilityicon = None
+        print("IN AGENTABILITY!!")
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == agentname:
+                abilityname = agent["displayName"]["abilities"][abilitynum]["displayName"]
+                abilitydesc = agent["displayName"]["abilities"][abilitynum]["description"]
+                abilityicon = agent["displayName"]["abilities"][abilitynum]["displayIcon"]
+                break
+            return None
+        return [abilityname, abilitydesc, abilityicon]
+
+    def getAgentAbilityEmbed(self, agentname : str, num : int):
+        print("IN ABILITY EMBED!!")
+        agentname = (agentname[0].upper() + agentname[1:].lower()).strip()
+        abilityInfo = self.getAgentAbility(name = agentname, abilitynum=num)
+        if abilityInfo == None:
+            abilityEmbed = discord.Embed(title = "Agent Not Found", type = "rich")
+            return abilityEmbed
+        else:
+            abilityName = abilityInfo[0]
+            abilityDesc = abilityInfo[1]
+            abilityIcon = abilityInfo[2]
+            abilityEmbed = discord.Embed(
+                title = f"Ability {num}: {abilityName}",
+                color = discord.Color.blue(),
+                description=abilityDesc)
+            abilityEmbed.set_image(url = abilityIcon)
+            return abilityEmbed
+        
+    def getAgentInfoEmbed(self, name):
         name = (name[0].upper() + name[1:].lower()).strip()
         for agent in self.response:
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
