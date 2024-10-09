@@ -38,7 +38,7 @@ async def agentinfo(interaction, agent: str):
     agentpaginateview.agentName = agent
     await agentpaginateview.send(interaction)
 
-@client.tree.command(name="buddies", description="Provides information on all buddies (synced to our guild only)", guild = discord.Object(id = GUILD))
+@client.tree.command(name="getbuddy", description="Provides information on all buddies (synced to our guild only)", guild = discord.Object(id = GUILD))
 async def buddies(interaction, buddy:str):
     b_embed = buddys.getBuddies(buddy)
     await interaction.response.send_message(embed = b_embed)

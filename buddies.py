@@ -19,7 +19,7 @@ class Buddy():
         found = False
         buddyImage = None
         for buddy in self.response:
-            if buddy["displayName"] == name:
+            if buddy["displayName"].lower().strip() == name.lower().strip():
                 buddyImage = buddy["displayIcon"]
                 found= True
                 break
@@ -27,6 +27,6 @@ class Buddy():
             buddyEmbed = discord.Embed(title = "Buddy Not Found", type = "rich")
             return buddyEmbed
         else:
-            buddyEmbed = discord.Embed(title = name, color= discord.Color.red())
+            buddyEmbed = discord.Embed(title = buddy["displayName"], color= discord.Color.red())
             buddyEmbed.set_thumbnail(url= buddyImage)
             return buddyEmbed
