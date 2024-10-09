@@ -97,14 +97,16 @@ class AgentSelect(discord.ui.Select):
       placeholder = "Choose an agent"
       min_values= 1
       max_values= 1
+      #creates dropdown menu of all the agents' names
       super().__init__(placeholder = placeholder, min_values = min_values, max_values= max_values, options=options)
 
+   #callback checks when an option is selected
    async def callback(self, interaction):
       apv = AgentPageView()
       apv.agentName = self.values[0]
       apv.agentClass = self.AgentClass
-      await interaction.message.edit(view = None)
-      await apv.send(interaction)
+      await interaction.message.edit(view = None) #replace dropdown menu with an empty message
+      await apv.send(interaction) #send the agents' page
    
 class AgentSelectMenu(discord.ui.View):
    def __init__(self, aclass):
