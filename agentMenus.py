@@ -9,10 +9,10 @@ class AgentPageView(discord.ui.View):
    async def send(self, ctx):
       await ctx.response.defer()
       # Send the initial message and assign it to self.message
-      embed = self.create_embed(self.agentName)
+      embed = self.create_embed()
       self.message = await ctx.followup.send(embed=embed, view=self) #send initial message
 
-   def create_embed(self, name):
+   def create_embed(self):
       if self.current_page == 1:
         embed = self.agentClass.getAgentInfoEmbed(name = self.agentName)
       else:
@@ -105,7 +105,7 @@ class AgentSelect(discord.ui.Select):
       apv = AgentPageView()
       apv.agentName = self.values[0]
       apv.agentClass = self.AgentClass
-      await interaction.message.edit(view = None) #replace dropdown menu with an empty message
+      await interaction.message.edit(content = f"Agent Selected: {self.values[0]}", view = None)#delee dropdown menu
       await apv.send(interaction) #send the agents' page
    
 class AgentSelectMenu(discord.ui.View):
