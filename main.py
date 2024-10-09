@@ -7,7 +7,7 @@ from discord.ext import commands
 from agents import Agents
 from buddies import Buddy
 from pagination import Pageview
-from agentPagination import AgentPageView
+from agentMenus import AgentPageView, AgentSelectMenu
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 GUILD = 1291847955963449374
@@ -36,7 +36,9 @@ async def agentinfo(interaction, agent: str):
     agentpaginateview = AgentPageView()
     agentpaginateview.agentClass = agents
     agentpaginateview.agentName = agent
-    await agentpaginateview.send(interaction)
+    await interaction.response.send_message("Select An Agent", view = AgentSelectMenu())
+    
+    #await agentpaginateview.send(interaction)
 
 @client.tree.command(name="getbuddy", description="Provides information on all buddies (synced to our guild only)", guild = discord.Object(id = GUILD))
 async def buddies(interaction, buddy:str):

@@ -88,3 +88,19 @@ class AgentPageView(discord.ui.View):
       await self.update_message()
    
 
+class AgentSelect(discord.ui.Select):
+   def __init__(self):
+      options = [discord.SelectOption(label = "Test1", description = "this is a test"),
+                 discord.SelectOption(label = "Test2", description = "this is a test2")]
+      placeholder = "Choose an agent"
+      min_values= 1
+      max_values= 1
+      super().__init__(placeholder = placeholder, min_values = min_values, max_values= max_values, options=options)
+
+   async def callback(self, interaction):
+      await interaction.response.send_message(f"I like {self.values[0]} too")
+   
+class AgentSelectMenu(discord.ui.View):
+   def __init__(self):
+      super().__init__(timeout=120)
+      self.add_item(AgentSelect())
