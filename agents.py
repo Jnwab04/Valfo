@@ -14,6 +14,11 @@ class Agents():
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
                 return agent["fullPortrait"]
         return None
+    def getAgentIcon(self, name : str):
+        for agent in self.response:
+            if agent["isPlayableCharacter"] and agent["displayName"] == name:
+                return agent["displayIcon"]
+        return None
     def getAgentRole(self, name : str):
         for agent in self.response:
             if agent["isPlayableCharacter"] and agent["displayName"] == name:
@@ -61,6 +66,7 @@ class Agents():
             if (num + 1) >= 4:
                 abilityEmbed.title = f"Ultimate: {abilityName}"
             abilityEmbed.set_image(url = abilityIcon)
+            abilityEmbed.set_footer(icon_url= self.getAgentIcon(name=agentname), text=agentname)
             return abilityEmbed
         
     def getAgentInfoEmbed(self, name):
