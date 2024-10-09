@@ -83,3 +83,9 @@ class Agents():
             agentEmbed.set_footer(text=self.getAgentRole(name = name), icon_url= self.getAgentRoleThumbnail(name = name))
 
             return agentEmbed
+    def getAgents(self):
+        temp = []
+        for agent in self.response:
+            if agent["isPlayableCharacter"]:
+                temp.append(agent["displayName"])
+        return temp

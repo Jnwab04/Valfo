@@ -32,14 +32,14 @@ async def help(interaction):
     await interaction.response.send_message("HEYY")
 
 @client.tree.command(name="agentinfo", description="Provides information on every agent (synced to our guild only)", guild = discord.Object(id = GUILD))
-async def agentinfo(interaction, agent: str):
-    agentpaginateview = AgentPageView()
-    agentpaginateview.agentClass = agents
-    agentpaginateview.agentName = agent
-    await interaction.response.send_message("Select An Agent", view = AgentSelectMenu())
-    
-    #await agentpaginateview.send(interaction)
-
+async def agentinfo(interaction, agent: str = None):
+    if agent != None:        
+        agentpaginateview = AgentPageView()
+        agentpaginateview.agentClass = agents   
+        agentpaginateview.agentName = agent
+        await agentpaginateview.send(interaction)
+    else:   
+        selectMenu = await interaction.response.send_message("Select An Agent", view = AgentSelectMenu(aclass = agents))
 @client.tree.command(name="getbuddy", description="Provides information on all buddies (synced to our guild only)", guild = discord.Object(id = GUILD))
 async def buddies(interaction, buddy:str):
     b_embed = buddys.getBuddies(buddy)

@@ -89,18 +89,25 @@ class AgentPageView(discord.ui.View):
    
 
 class AgentSelect(discord.ui.Select):
-   def __init__(self):
-      options = [discord.SelectOption(label = "Test1", description = "this is a test"),
-                 discord.SelectOption(label = "Test2", description = "this is a test2")]
+   def __init__(self, AgentClass):
+      self.AgentClass = AgentClass
+      options = []
+      for agent in AgentClass.getAgents():
+         options.append(discord.SelectOption(label = agent))
       placeholder = "Choose an agent"
       min_values= 1
       max_values= 1
       super().__init__(placeholder = placeholder, min_values = min_values, max_values= max_values, options=options)
 
    async def callback(self, interaction):
-      await interaction.response.send_message(f"I like {self.values[0]} too")
+      apv = AgentPageView()
+      apv.agentName = self.values[0]
+      apv.agentClass = self.AgentClass
+      await interaction.message.edit(view = None)
+      await apv.send(interaction)
    
 class AgentSelectMenu(discord.ui.View):
-   def __init__(self):
-      super().__init__(timeout=120)
-      self.add_item(AgentSelect())
+   def __init__(self, aclass):
+      super().__init__(timeout = 60)
+      ags = AgentSelect(AgentClass=aclass)
+      self.add_item(ags)
