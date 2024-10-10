@@ -55,7 +55,7 @@ class AgentPageView(discord.ui.View):
       self.update_buttons()  # Update buttons first
       if self.message:
          # Edit the message with new embed data
-         await self.message.edit(embed=self.create_embed(name = self.agentName), view=self)
+         await self.message.edit(embed=self.create_embed(), view=self)
 
    @discord.ui.button(label="Info", style=discord.ButtonStyle.primary)
    async def description_button(self, interaction: discord.Interaction, button: discord.ui.Button):

@@ -45,7 +45,6 @@ class Agents():
                 abilitydesc = agent["abilities"][abilitynum]["description"]
                 abilityicon = agent["abilities"][abilitynum]["displayIcon"]
                 return [abilityname, abilitydesc, abilityicon]
-                
         return None
         
 
@@ -81,7 +80,7 @@ class Agents():
         else:
             agentEmbed = discord.Embed(
                 title= name,
-                color = discord.Color.green(),
+                color = discord.Color.dark_teal(),
                 type = 'rich',
                 description = self.getAgentDescription(name = name)
                 )
