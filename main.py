@@ -8,6 +8,7 @@ from agents import Agents
 from buddies import Buddy
 from pagination import Pageview
 from agentMenus import AgentPageView, AgentSelectMenu
+from gamemodes import Gamemodes
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 GUILD = 1291847955963449374
@@ -17,6 +18,7 @@ intents.message_content = True
 client = commands.Bot(command_prefix="/", intents = discord.Intents.all())
 agents = Agents()
 buddys = Buddy()
+gmode = Gamemodes()
 @client.event
 async def on_ready():
     try:
@@ -51,6 +53,10 @@ async def paginate(ctx):
     paginateview = Pageview()
     paginateview.data = list(data)
     await paginateview.send(ctx)
+@client.tree.command(name="gamemodes",description="Provides information on the avalible game modes in valorant", guild = discord.Object(id = GUILD) ) 
+async def gamemodes(interaction, gamemode: str):
+    g_embed =  gmode.getGamemodeEmbed(gamemode)
+    await interaction.response.send_message(embed = g_embed)
 
 @client.tree.command(name="shutdown", description="force shut down the bot (synced to our guild only)" , guild = discord.Object(id = GUILD))
 async def shutdown(interaction):
